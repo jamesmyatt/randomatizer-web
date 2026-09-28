@@ -1,0 +1,47 @@
+/// <reference types="vitest/config" />
+import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
+import pkg from './package.json' with { type: 'json' }
+
+// https://vite.dev/config/
+export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
+  plugins: [
+    svelte(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      // Loads /registerSW.js as an external script, which the Content-Security-Policy allows.
+      injectRegister: 'script',
+      manifest: {
+        name: 'Randomatizer',
+        short_name: 'Randomatizer',
+        description: 'Minimalist self-hosted private open-source dice roller',
+        theme_color: '#fbfbfb',
+        background_color: '#fbfbfb',
+        display: 'standalone',
+        start_url: '.',
+        scope: '.',
+        icons: [
+          { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
+          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' },
+          {
+            src: 'maskable-icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+      },
+    }),
+  ],
+  test: {
+    include: ['src/**/*.test.ts'],
+  },
+})
