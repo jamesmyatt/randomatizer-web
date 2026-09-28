@@ -1,6 +1,10 @@
 # <img src="public/icon.svg" alt="" width="40"> Randomatizer web
 
-Minimalist self-hosted private open-source dice roller. A web version of the [Randomatizer Android app](https://github.com/jamesmyatt/randomatizer).
+Minimalist self-hosted private open-source dice roller.
+
+The web version of the [Randomatizer Android app](https://github.com/jamesmyatt/randomatizer), kept in step with it: same features, behavior, design and wording. It differs only where the platform requires (see [Differences from the Android app](#differences-from-the-android-app)).
+
+Matches Android app version **1.0**.
 
 ## Features
 
@@ -12,6 +16,14 @@ Minimalist self-hosted private open-source dice roller. A web version of the [Ra
 - Minimalist, flat, monochrome design. Light, dark or system theme. Custom dice colors, with pips that always contrast.
 - Settings are saved in the browser (`localStorage`), per browser.
 - Installable, and works offline once loaded (PWA).
+
+## Differences from the Android app
+
+- **Colors**: browsers don't expose Android's dynamic (Material You) colors, so the app uses a fixed neutral light and dark palette.
+- **Settings storage**: saved in the browser's `localStorage` instead of on the device.
+- **Install and offline**: a PWA instead of an APK. Offline use and installing need HTTPS or `localhost`.
+- **Hosting**: self-hosted as a static site (Docker image provided).
+- **Settings sheet**: a centered dialog on wide screens, with a Close button, since browsers have no system back gesture.
 
 ## Principles
 

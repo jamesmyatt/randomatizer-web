@@ -163,9 +163,7 @@
       {/if}
     {/if}
 
-    <p class="about">
-      Randomatizer {__APP_VERSION__} · Apache-2.0 · Settings are saved in this browser only
-    </p>
+    <p class="about">Randomatizer {__APP_VERSION__} · Apache-2.0</p>
   </div>
 </dialog>
 

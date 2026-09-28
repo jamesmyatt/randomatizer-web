@@ -1,6 +1,16 @@
 # Randomatizer web
 
-Static, client-side web port of the Randomatizer Android app (github.com/jamesmyatt/randomatizer). Apache-2.0.
+Static, client-side web version of the Randomatizer Android app (github.com/jamesmyatt/randomatizer). Apache-2.0.
+
+## Parity with the Android app
+
+This is a companion to the Android app, not a one-off port. Keep the two in step.
+
+- Features, behavior, limits, layout rules, colors, palette and UI strings match the Android app. Copy wording from its `app/src/main/res/values/strings.xml`.
+- The only allowed differences are the platform ones listed under "Differences from the Android app" in `README.md`. Add any new one there, with the reason.
+- When porting an Android change, read the Android code and tests (clone the repo for reference), port the tests to Vitest, and update "Matches Android app version" in `README.md`.
+- If a change here would also make sense in the Android app, say so rather than letting the apps drift apart.
+- Keep the module structure mirroring the Android packages: `dice/` → `lib/dice.ts` and `lib/random.ts`, `history/` → `lib/history.ts`, `color/` → `lib/color.ts`, `settings/AppSettings.kt` → `lib/settings.ts`, `ui/DieSize.kt` → `lib/dieSize.ts`, `ui/Palette.kt` → `lib/palette.ts`, `RollerViewModel` → `lib/roller.svelte.ts`.
 
 ## Hard rules
 
@@ -20,7 +30,7 @@ Static, client-side web port of the Randomatizer Android app (github.com/jamesmy
 
 ## UI rules
 
-Same as the Android app: monochrome (accents use `onSurface`/`surface`), history pinned to the bottom (main area capped at 60% when expanded), die size from `dieSize` only, dice color sets the face only, outline below 3:1 face vs background, warning below 3:1 face vs pips.
+Same as the Android app (see its CLAUDE.md for the full rules): monochrome (accents use `onSurface`/`surface`), history pinned to the bottom (main area capped at 60% when expanded), die size from `dieSize` only, dice color sets the face only, outline below 3:1 face vs background, warning below 3:1 face vs pips.
 
 ## Commands
 
