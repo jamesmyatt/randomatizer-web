@@ -38,10 +38,10 @@ Same as the Android app (see its CLAUDE.md for the full rules): monochrome (acce
 
 ## Versioning
 
-- `version` in `package.json` is `MAJOR.PATCH` (not semver). The app shows it in Settings.
-- Most code changes bump MAJOR and reset PATCH to 0. Bump PATCH only for small fixes, docs or build-only changes.
+- `version` in `package.json` is `MAJOR.MINOR.PATCH`, the same scheme as the Android app. The app shows it in Settings.
+- Most code changes bump MAJOR and reset MINOR and PATCH to 0. Bump PATCH only for small fixes, docs or build-only changes.
 - Bump the version at most once per branch/PR, relative to the base branch (use a MAJOR bump if any change on the branch needs one).
-- Pushing tag `v<MAJOR>.<PATCH>` publishes the image; the tag must match `package.json`. Don't push release tags unless asked.
+- Pushing tag `v<MAJOR>.<MINOR>.<PATCH>` publishes the image; the tag must match `package.json`. Don't push release tags unless asked.
 
 ## Conventions
 
