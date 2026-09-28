@@ -26,6 +26,13 @@ Same as the Android app: monochrome (accents use `onSurface`/`surface`), history
 
 `npm run lint`, `npm run check`, `npm test`, `npm run build`. CI runs all four and a Docker smoke test.
 
+## Versioning
+
+- `version` in `package.json` is `MAJOR.PATCH` (not semver). The app shows it in Settings.
+- Most code changes bump MAJOR and reset PATCH to 0. Bump PATCH only for small fixes, docs or build-only changes.
+- Bump the version at most once per branch/PR, relative to the base branch (use a MAJOR bump if any change on the branch needs one).
+- Pushing tag `v<MAJOR>.<PATCH>` publishes the image; the tag must match `package.json`. Don't push release tags unless asked.
+
 ## Conventions
 
 - American English in UI strings, code and docs, as in the Android app.

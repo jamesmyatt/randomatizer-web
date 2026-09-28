@@ -35,7 +35,7 @@ docker compose up -d
 
 Then open http://localhost:8080. Put it behind your reverse proxy for HTTPS: browsers only install the PWA and run its service worker on HTTPS or `localhost`.
 
-Image tags: `latest` and `<major>`, `<major>.<minor>`, `<version>` for releases; `edge` for `main`. Images are built for `linux/amd64` and `linux/arm64`.
+Image tags: `latest`, `<major>` and `<major>.<patch>` for releases; `edge` for `main`. Images are built for `linux/amd64` and `linux/arm64`.
 
 To build the image yourself: `docker build -t randomatizer-web .`
 
@@ -58,7 +58,7 @@ Stack: [Svelte 5](https://svelte.dev/), TypeScript, [Vite](https://vite.dev/), [
 
 ## Releases
 
-Pushing a tag `v<major>.<minor>.<patch>` (matching `version` in `package.json`) publishes the image to GHCR. Renovate keeps dependencies and the SHA-pinned GitHub Actions up to date.
+Versions are `MAJOR.PATCH`. Pushing a tag `v<MAJOR>.<PATCH>` (matching `version` in `package.json`) publishes the image to GHCR. Renovate keeps dependencies and the SHA-pinned GitHub Actions up to date.
 
 ## License
 

@@ -1,10 +1,10 @@
 name: Publish image
 
-# main publishes :edge; tag v<MAJOR>.<MINOR>.<PATCH> publishes :<version>, :<major>.<minor>, :<major> and :latest.
+# main publishes :edge; tag v<MAJOR>.<PATCH> publishes :<MAJOR>.<PATCH>, :<MAJOR> and :latest.
 on:
   push:
     branches: [main]
-    tags: ['v*.*.*']
+    tags: ['v*.*']
 
 permissions:
   contents: read
@@ -22,6 +22,9 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check tag matches package.json
+        if: startsWith(github.ref, 'refs/tags/')
+        run: test "${GITHUB_REF_NAME}" = "v$(npm pkg get version | tr -d '"')"
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
@@ -34,9 +37,8 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=edge,branch=main
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
+            type=match,pattern=^v(\d+\.\d+)$,group=1
+            type=match,pattern=^v(\d+)\.\d+$,group=1
       - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
