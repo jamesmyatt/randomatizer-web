@@ -14,7 +14,7 @@ const test = base.extend<{ app: Page }>({
         console.error(`CSP violation: ${e.violatedDirective} ${e.blockedURI}`),
       ),
     )
-    await page.goto('/')
+    await page.goto('./')
     await expect(page.getByText('Ready to roll')).toBeVisible()
     await use(page)
     expect(problems).toEqual([])

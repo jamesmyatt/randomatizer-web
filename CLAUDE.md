@@ -14,7 +14,7 @@ This is a companion to the Android app, not a one-off port. Keep the two in step
 
 ## Hard rules
 
-- Client-side only: no backend, no external requests, no analytics, no CDN assets. Everything is served from the app's own origin, and `nginx/security-headers.conf` enforces that with a strict CSP. Don't weaken it.
+- Client-side only: no backend, no external requests, no analytics, no CDN assets. Everything is served from the app's own origin, and `nginx/security-headers.conf` enforces that with a strict CSP. Don't weaken it. The GitHub Pages build (`PAGES_BASE_PATH`, `.github/workflows/pages.yml`) can't send headers, so `vite.config.ts` copies that CSP into a `<meta>` tag, minus `frame-ancestors`.
 - Svelte markup must not use `style="..."` attributes (blocked by `style-src 'self'`). Use `style:prop` directives or classes.
 - Roll history lives in memory only (`RollerState`). Never persist it.
 - Only settings may be persisted, in `localStorage` under `randomatizer:settings`, via `lib/settings.ts`.
@@ -28,6 +28,7 @@ This is a companion to the Android app, not a one-off port. Keep the two in step
 - `public/`: icons. `public/icon.svg` copies the Android app icon; regenerate the PNGs with `npm run generate-pwa-assets`.
 - `e2e/`: Playwright tests. `vite.config.ts` reads `nginx/security-headers.conf` so `vite preview` sends the same headers.
 - `nginx/`, `Dockerfile`, `compose.yaml`: container. Base images are pinned by digest.
+- `.github/workflows/pages.yml`: publishes release tags to GitHub Pages, from a subpath. Keep URLs relative or based on Vite's `base`.
 - `scripts/alpine-install.sh`: installs or updates a release in an Alpine LXC. It downloads the tarball that `.github/workflows/docker.yml` attaches to each GitHub Release (`html/` and `nginx/`). Keep the two in step. POSIX `sh`, no bash or curl.
 
 ## UI rules

@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 
 // Tests the production build. Set BASE_URL to test a running server (e.g. the Docker image) instead.
-const baseURL = process.env.BASE_URL ?? 'http://localhost:4173'
+// PAGES_BASE_PATH tests the GitHub Pages build (see vite.config.ts).
+const baseURL = process.env.BASE_URL ?? `http://localhost:4173${process.env.PAGES_BASE_PATH ?? '/'}`
 
 export default defineConfig({
   testDir: 'e2e',
