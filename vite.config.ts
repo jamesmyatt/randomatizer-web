@@ -1,8 +1,18 @@
 /// <reference types="vitest/config" />
+import { readFileSync } from 'node:fs'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import pkg from './package.json' with { type: 'json' }
+
+/** The nginx security headers, so `vite preview` (and the E2E tests) enforce the same CSP. */
+const securityHeaders = Object.fromEntries(
+  [
+    ...readFileSync('nginx/security-headers.conf', 'utf8').matchAll(
+      /^add_header (\S+) "([^"]*)" always;$/gm,
+    ),
+  ].map(([, name, value]) => [name, value]),
+)
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -41,6 +51,9 @@ export default defineConfig({
       },
     }),
   ],
+  preview: {
+    headers: securityHeaders,
+  },
   test: {
     include: ['src/**/*.test.ts'],
   },

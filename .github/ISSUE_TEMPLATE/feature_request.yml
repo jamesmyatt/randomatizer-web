@@ -1,0 +1,14 @@
+name: Feature request
+description: Suggest an idea
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: New features go into the [Randomatizer Android app](https://github.com/jamesmyatt/randomatizer/issues) first, then get ported here. Request features for both apps there. Use this form only for ideas specific to the web version, such as hosting or browser support.
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+      description: Describe the feature and the situation it helps with.
+    validations:
+      required: true

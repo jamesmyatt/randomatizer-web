@@ -67,24 +67,13 @@ Then open `http://<container-ip>`, behind your reverse proxy for HTTPS as above.
 
 Any static file server works: serve the `html/` folder from a release's `randomatizer-web-<version>.tar.gz`, or the `dist/` folder from `npm run build`. The tarball's `nginx/` folder has the nginx config.
 
+## Changelog
+
+See [changelogs/](changelogs) or [GitHub Releases](https://github.com/jamesmyatt/randomatizer-web/releases).
+
 ## Development
 
-Needs Node.js 24 (see `.nvmrc`).
-
-```sh
-npm install
-npm run dev      # dev server with hot reload
-npm run lint     # Prettier and ESLint (npm run format to fix)
-npm run check    # type check
-npm test         # unit tests
-npm run build    # production build in dist/
-```
-
-Stack: [Svelte 5](https://svelte.dev/), TypeScript, [Vite](https://vite.dev/), [Vitest](https://vitest.dev/), [vite-plugin-pwa](https://vite-pwa-org.netlify.app/).
-
-## Releases
-
-Versions are `MAJOR.MINOR.PATCH`. Pushing a tag `v<MAJOR>.<MINOR>.<PATCH>` (matching `version` in `package.json`) publishes the image to GHCR and attaches the static build (`randomatizer-web-<version>.tar.gz` and its `.sha256`) to a GitHub Release. Renovate keeps dependencies and the SHA-pinned GitHub Actions up to date.
+See [DEVELOPING.md](DEVELOPING.md) and [CONTRIBUTING.md](CONTRIBUTING.md). To publish a release, see [RELEASING.md](RELEASING.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
 ## License
 

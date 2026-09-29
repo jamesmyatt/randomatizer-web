@@ -22,6 +22,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Check the changelog for this version exists
+        run: test -f "changelogs/$(npm pkg get version | tr -d '"').md"
       - run: npm run lint
       - run: npm run check
       - run: npm test
@@ -47,3 +49,26 @@ jobs:
           curl -fsS -D - -o /dev/null http://localhost:8080/ | grep -i '^content-security-policy:'
           curl -fsS -o /dev/null http://localhost:8080/manifest.webmanifest
           curl -fsS -o /dev/null http://localhost:8080/sw.js
+      # End-to-end and accessibility tests against the real nginx server and headers.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          BASE_URL: http://localhost:8080
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: playwright-report-${{ github.event.pull_request.head.sha || github.sha }}
+          path: test-results/
+          retention-days: 14
+      - name: Scan image for vulnerabilities
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: randomatizer-web:ci
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: '1'

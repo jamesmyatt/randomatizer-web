@@ -64,8 +64,10 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
-      - name: Check tag matches package.json
-        run: test "${GITHUB_REF_NAME}" = "v$(npm pkg get version | tr -d '"')"
+      - name: Check tag matches package.json and the changelog exists
+        run: |
+          test "${GITHUB_REF_NAME}" = "v$(npm pkg get version | tr -d '"')"
+          test -f "changelogs/${GITHUB_REF_NAME#v}.md"
       - run: npm ci
       - run: npm run build
       - name: Package
@@ -77,11 +79,15 @@ jobs:
           tar -czf "$asset" -C pkg .
           sha256sum "$asset" > "$asset.sha256"
           echo "ASSET=$asset" >> "$GITHUB_ENV"
-      # Creates the release, or adds the files to one already published from GitHub's release form.
+      # Creates the release, or updates one already published from GitHub's release form.
       - name: Upload to GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 ||
-            gh release create "$GITHUB_REF_NAME" --verify-tag --title "$GITHUB_REF_NAME" --generate-notes
+          notes="changelogs/${GITHUB_REF_NAME#v}.md"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release edit "$GITHUB_REF_NAME" --notes-file "$notes"
+          else
+            gh release create "$GITHUB_REF_NAME" --verify-tag --title "$GITHUB_REF_NAME" --notes-file "$notes"
+          fi
           gh release upload "$GITHUB_REF_NAME" "$ASSET" "$ASSET.sha256" --clobber
