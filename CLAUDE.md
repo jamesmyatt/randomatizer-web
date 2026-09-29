@@ -40,7 +40,7 @@ Same as the Android app (see its CLAUDE.md for the full rules): monochrome (acce
 
 - `version` in `package.json` is semver `MAJOR.MINOR.PATCH`. The app shows it in Settings.
 - `MAJOR.MINOR` always matches the Android app's `MAJOR.MINOR` for the release this code is in step with. Change it only when porting that release, and reset PATCH to 0. (Android bumps MAJOR for most code changes, and MINOR only for small additions or tweaks that don't change existing behavior. See its CLAUDE.md.)
-- PATCH is independent of the Android app's PATCH. Bump it for web-only changes (fixes, platform differences, build, docs).
+- PATCH is independent of the Android app's PATCH. Bump it for any web-only change, including web-only behavior changes (fixes, platform differences, build, docs).
 - Bump the version at most once per branch/PR, relative to the base branch. Update the version line in `README.md` when `MAJOR.MINOR` changes.
 - Pushing tag `v<MAJOR>.<MINOR>.<PATCH>` publishes the image; the tag must match `package.json`. Don't push release tags unless asked.
 
