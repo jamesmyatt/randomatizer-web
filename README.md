@@ -1,4 +1,4 @@
-# <img src="public/icon.svg" alt="" width="40"> Randomatizer web
+# <img src="public/icon.svg" alt="" width="40"> Randomatizer Web
 
 Minimalist self-hosted private open-source dice roller.
 

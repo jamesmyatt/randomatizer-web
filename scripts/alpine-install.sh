@@ -1,5 +1,5 @@
 #!/bin/sh
-# Installs or updates Randomatizer web in an Alpine Linux container (e.g. a Proxmox LXC), served by nginx.
+# Installs or updates Randomatizer Web in an Alpine Linux container (e.g. a Proxmox LXC), served by nginx.
 #
 #   wget -qO- https://raw.githubusercontent.com/jamesmyatt/randomatizer-web/main/scripts/alpine-install.sh | sh
 #
@@ -31,11 +31,11 @@ fi
 NGINX_CONF="/etc/nginx/http.d/randomatizer.conf"
 if [ -f "$VERSION_FILE" ] && [ "$(cat "$VERSION_FILE")" = "$VERSION" ] &&
   grep -q "listen ${PORT};" "$NGINX_CONF" 2>/dev/null; then
-  msg "Randomatizer web ${VERSION} is already installed on port ${PORT}"
+  msg "Randomatizer Web ${VERSION} is already installed on port ${PORT}"
   exit 0
 fi
 
-msg "Downloading Randomatizer web ${VERSION}"
+msg "Downloading Randomatizer Web ${VERSION}"
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 ASSET="randomatizer-web-${VERSION}.tar.gz"
@@ -63,4 +63,4 @@ else
   rc-service nginx start >/dev/null
 fi
 echo "$VERSION" >"$VERSION_FILE"
-msg "Randomatizer web ${VERSION} is running on port ${PORT}"
+msg "Randomatizer Web ${VERSION} is running on port ${PORT}"

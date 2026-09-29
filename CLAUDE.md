@@ -1,4 +1,4 @@
-# Randomatizer web
+# Randomatizer Web
 
 Static, client-side web version of the Randomatizer Android app (github.com/jamesmyatt/randomatizer). Apache-2.0.
 
