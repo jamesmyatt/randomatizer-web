@@ -48,7 +48,7 @@ Or with Compose, using [compose.yaml](compose.yaml):
 docker compose up -d
 ```
 
-Then open http://localhost:8080. Put it behind your reverse proxy for HTTPS: browsers only install the PWA and run its service worker on HTTPS or `localhost`.
+Then open http://localhost:8080. For HTTPS, see [HTTPS](#https).
 
 Image tags: `latest`, `<major>`, `<major>.<minor>` and `<major>.<minor>.<patch>` for releases; `edge` for `main`. Images are built for `linux/amd64` and `linux/arm64`.
 
@@ -62,21 +62,21 @@ To build the image yourself: `docker build -t randomatizer-web .`
 wget -qO- https://raw.githubusercontent.com/jamesmyatt/randomatizer-web/main/scripts/alpine-install.sh | sh
 ```
 
-Then open `http://<container-ip>:8080`. For HTTPS, use Tailscale Serve (below) or your reverse proxy. Run the same command again to update. Set `PORT` (default `8080`, as in the Docker image) to use another port, or `VERSION` (for example `1.0.0`) to install a specific release, e.g. `... | PORT=80 sh`.
+Then open `http://<container-ip>:8080`. For HTTPS, see [HTTPS](#https). Run the same command again to update. Set `PORT` (default `8080`, as in the Docker image) to use another port, or `VERSION` (for example `1.0.0`) to install a specific release, e.g. `... | PORT=80 sh`.
 
-#### HTTPS with Tailscale Serve
+### Other servers
 
-Install Tailscale in the container with the [community script](https://community-scripts.org/scripts/add-tailscale-lxc) and log in with `tailscale up`. Then, in the container:
+Any static file server works: serve the `html/` folder from a release's `randomatizer-web-<version>.tar.gz`, or the `dist/` folder from `npm run build`. The tarball's `nginx/` folder has the nginx config.
+
+### HTTPS
+
+Browsers only install the app and run it offline over HTTPS (or on `localhost`). Put it behind your reverse proxy, or use [Tailscale Serve](https://tailscale.com/kb/1312/serve) on the machine or container that runs it:
 
 ```sh
 tailscale serve --bg 8080
 ```
 
-The app is then at `https://<container-name>.<tailnet>.ts.net` for devices on your tailnet. If you set `PORT`, serve that port instead.
-
-### Other servers
-
-Any static file server works: serve the `html/` folder from a release's `randomatizer-web-<version>.tar.gz`, or the `dist/` folder from `npm run build`. The tarball's `nginx/` folder has the nginx config.
+The app is then at `https://<machine-name>.<tailnet>.ts.net` for devices on your tailnet. If you use another port, serve that port instead. In a Proxmox LXC, install Tailscale with the [community script](https://community-scripts.org/scripts/add-tailscale-lxc) and log in with `tailscale up`.
 
 ## Changelog
 
