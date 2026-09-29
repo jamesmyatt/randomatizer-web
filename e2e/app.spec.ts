@@ -38,6 +38,37 @@ test('basic mode rolls d6s and totals them', async ({ app: page }) => {
   await expect(page.locator('#history-list li')).toHaveCount(1)
 })
 
+test('hides the total while the dice roll, without moving the layout', async ({ app: page }) => {
+  await roll(page)
+  // Samples every animation frame from the tap until the total appears.
+  const frames = await page.evaluate(async () => {
+    const box = (selector: string) => {
+      const { x, y, width, height } = document.querySelector(selector)!.getBoundingClientRect()
+      return { x, y, width, height }
+    }
+    const total = document.querySelector('.total-value')!
+    ;(document.querySelector('.roll') as HTMLButtonElement).click()
+    const samples = []
+    do {
+      await new Promise(requestAnimationFrame)
+      samples.push({
+        visible: getComputedStyle(total).visibility === 'visible',
+        label: box('.total-label'),
+        button: box('.roll'),
+      })
+    } while (!samples.at(-1)!.visible && samples.length < 200)
+    return samples
+  })
+  // The final total is laid out but hidden (so not announced) until the animation ends.
+  expect(frames.length).toBeGreaterThan(3)
+  expect(frames.slice(0, -1).every((f) => !f.visible)).toBe(true)
+  expect(frames.at(-1)!.visible).toBe(true)
+  for (const f of frames) {
+    expect(f.label).toEqual(frames[0]!.label)
+    expect(f.button).toEqual(frames[0]!.button)
+  }
+})
+
 test('advanced mode rolls the selected dice', async ({ app: page }) => {
   await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByRole('switch', { name: 'Advanced mode' }).check()
