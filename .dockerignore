@@ -1,0 +1,13 @@
+.git
+.github
+.vscode
+node_modules
+dist
+dev-dist
+*.log
+Dockerfile
+compose.yaml
+e2e
+test-results
+playwright-report
+changelogs
