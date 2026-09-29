@@ -4,7 +4,7 @@ Minimalist self-hosted private open-source dice roller.
 
 The web version of the [Randomatizer Android app](https://github.com/jamesmyatt/randomatizer), kept in step with it: same features, behavior, design and wording. It differs only where the platform requires (see [Differences from the Android app](#differences-from-the-android-app)).
 
-The `MAJOR.MINOR` version matches the Android app release it is in step with. `PATCH` counts web-only changes. For example, web 1.0.x matches Android 1.0.x.
+The `MAJOR.MINOR` version matches the Android app release it is in step with. `PATCH` counts web-only changes. For example, Web 1.0.x matches Android 1.0.x.
 
 ## Features
 
