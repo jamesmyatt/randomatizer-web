@@ -66,27 +66,13 @@ Then open `http://<container-ip>:8080`. For HTTPS, use Tailscale Serve (below) o
 
 #### HTTPS with Tailscale Serve
 
-[Tailscale Serve](https://tailscale.com/kb/1312/serve) gives the container an HTTPS address on your tailnet, such as `https://randomatizer.<tailnet>.ts.net`, with a certificate it renews itself. HTTPS lets browsers install the app and use it offline.
+Install Tailscale in the container with the [community script](https://community-scripts.org/scripts/add-tailscale-lxc) and log in with `tailscale up`. Then, in the container:
 
-1. In the Tailscale admin console, under **DNS**, enable MagicDNS and **HTTPS Certificates**.
-2. For an unprivileged Proxmox LXC, pass the TUN device through: add these lines to `/etc/pve/lxc/<id>.conf` on the host, then restart the container.
+```sh
+tailscale serve --bg 8080
+```
 
-   ```
-   lxc.cgroup2.devices.allow: c 10:200 rwm
-   lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
-   ```
-
-3. In the container, install Tailscale, log in, and serve the app:
-
-   ```sh
-   apk add tailscale
-   rc-update add tailscale default
-   rc-service tailscale start
-   tailscale up
-   tailscale serve --bg 8080
-   ```
-
-Only devices on your tailnet can open the address. If you set `PORT`, use that port in `tailscale serve`.
+The app is then at `https://<container-name>.<tailnet>.ts.net` for devices on your tailnet. If you set `PORT`, serve that port instead.
 
 ### Other servers
 
