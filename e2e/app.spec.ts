@@ -24,7 +24,7 @@ const test = base.extend<{ app: Page }>({
 const dice = (page: Page) => page.locator('.dice svg[role=img]')
 const roll = async (page: Page) => {
   await page.getByRole('button', { name: /^Roll/ }).click()
-  await expect(page.locator('.total-value')).not.toHaveText('')
+  await expect(page.locator('.total-value')).toBeVisible()
 }
 
 test('basic mode rolls d6s and totals them', async ({ app: page }) => {

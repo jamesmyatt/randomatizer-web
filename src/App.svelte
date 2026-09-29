@@ -74,7 +74,6 @@
   const history = $derived(
     animating ? roller.history.filter((e) => e.id !== roller.current?.id) : roller.history,
   )
-  const total = $derived(results?.reduce((sum, r) => sum + r.value, 0))
 
   let diceWidth = $state(0)
   const size = $derived(results?.length ? dieSize(diceWidth, results.length) : 0)
@@ -128,7 +127,10 @@
     {#if settings.showTotal}
       <div class="total">
         <span class="total-label">Total</span>
-        <output class="total-value" aria-live="polite">{animating ? '' : (total ?? '–')}</output>
+        <!-- Blank while rolling, but keeps its size so nothing moves. -->
+        <output class="total-value" class:rolling={animating} aria-live="polite"
+          >{roller.current?.roll.total ?? '–'}</output
+        >
       </div>
     {/if}
 
@@ -242,6 +244,10 @@
   .total-label {
     color: var(--on-surface-variant);
     font-weight: 500;
+  }
+
+  .total-value.rolling {
+    visibility: hidden;
   }
 
   .total-value {
