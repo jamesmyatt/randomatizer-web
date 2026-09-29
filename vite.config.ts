@@ -1,7 +1,7 @@
 /// <reference types="vitest/config" />
 import { readFileSync } from 'node:fs'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import pkg from './package.json' with { type: 'json' }
 
@@ -14,8 +14,37 @@ const securityHeaders = Object.fromEntries(
   ].map(([, name, value]) => [name, value]),
 )
 
+/**
+ * Set for the GitHub Pages build (see `.github/workflows/pages.yml`), e.g. `/randomatizer-web/`.
+ * Pages serves the app from that subpath and can't send HTTP headers.
+ */
+const pagesBasePath = process.env.PAGES_BASE_PATH
+
+/**
+ * Adds the CSP as a `<meta>` tag, for hosts that can't send it as a header. `frame-ancestors` only
+ * works as a header, and browsers log an error for it in a `<meta>` tag, so it is left out.
+ */
+function cspMetaTag(): Plugin {
+  const csp = securityHeaders['Content-Security-Policy']
+    .split(';')
+    .map((directive) => directive.trim())
+    .filter((directive) => !directive.startsWith('frame-ancestors'))
+    .join('; ')
+  return {
+    name: 'csp-meta-tag',
+    transformIndexHtml: () => [
+      {
+        tag: 'meta',
+        attrs: { 'http-equiv': 'Content-Security-Policy', content: csp },
+        injectTo: 'head-prepend',
+      },
+    ],
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
+  base: pagesBasePath ?? '/',
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
   },
@@ -54,9 +83,11 @@ export default defineConfig({
         clientsClaim: true,
       },
     }),
+    pagesBasePath ? cspMetaTag() : null,
   ],
   preview: {
-    headers: securityHeaders,
+    // Without the headers for the Pages build, so the E2E tests check the `<meta>` CSP on its own.
+    headers: pagesBasePath ? {} : securityHeaders,
   },
   test: {
     include: ['src/**/*.test.ts'],

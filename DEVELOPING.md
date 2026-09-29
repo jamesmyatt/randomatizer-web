@@ -22,7 +22,7 @@ npm run build      # production build in dist/
 npm run preview    # serve dist/ with the same security headers as nginx
 ```
 
-CI runs lint, type check, unit tests and the build on each pull request and push to `main`. It also builds the Docker image, runs the end-to-end tests against it and scans it with Trivy.
+CI runs lint, type check, unit tests and the build on each pull request and push to `main`. It also builds the Docker image, runs the end-to-end tests against it and scans it with Trivy. Release tags also publish to GitHub Pages (see `RELEASING.md`).
 
 ## Tests
 
@@ -32,6 +32,12 @@ CI runs lint, type check, unit tests and the build on each pull request and push
   ```sh
   docker build -t randomatizer-web . && docker run -d -p 8080:8080 randomatizer-web
   BASE_URL=http://localhost:8080 npm run test:e2e
+  ```
+
+  To test the GitHub Pages build (served from a subpath, with the CSP in a `<meta>` tag and no headers), set `PAGES_BASE_PATH`:
+
+  ```sh
+  PAGES_BASE_PATH=/randomatizer-web/ npm run test:e2e
   ```
 
 ## Stack

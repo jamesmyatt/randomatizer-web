@@ -2,6 +2,8 @@
 
 Minimalist self-hosted private open-source dice roller.
 
+Try it at https://jamesmyatt.github.io/randomatizer-web/, or [self-host it](#install).
+
 The web version of the [Randomatizer Android app](https://github.com/jamesmyatt/randomatizer), kept in step with it: same features, behavior, design and wording. It differs only where the platform requires (see [Differences from the Android app](#differences-from-the-android-app)).
 
 The `MAJOR.MINOR` version matches the Android app release it is in step with. `PATCH` counts web-only changes. For example, Web 1.0.x matches Android 1.0.x.
@@ -22,7 +24,7 @@ The `MAJOR.MINOR` version matches the Android app release it is in step with. `P
 - **Colors**: browsers don't expose Android's dynamic (Material You) colors, so the app uses a fixed neutral light and dark palette.
 - **Settings storage**: saved in the browser's `localStorage` instead of on the device.
 - **Install and offline**: a PWA instead of an APK. Offline use and installing need HTTPS or `localhost`.
-- **Hosting**: self-hosted as a static site, with a Docker image or an Alpine LXC install script.
+- **Hosting**: self-hosted as a static site, with a Docker image or an Alpine LXC install script, or used from GitHub Pages.
 - **Name**: the app is called Randomatizer Web, to tell it apart from the Android app when both are installed. Its home-screen short name stays Randomatizer.
 - **Settings sheet**: a centered dialog on wide screens, with a Close button, since browsers have no system back gesture.
 
@@ -33,6 +35,12 @@ The `MAJOR.MINOR` version matches the Android app release it is in step with. `P
 - **Fair**: Web Crypto `getRandomValues` with rejection sampling, so no modulo bias.
 
 ## Install
+
+### GitHub Pages
+
+The latest release is at https://jamesmyatt.github.io/randomatizer-web/. Open it and install it from the browser, or use it in the browser. Settings are saved in that browser only.
+
+GitHub Pages can't send HTTP headers, so this copy sets its Content-Security-Policy in a `<meta>` tag. That covers everything but `frame-ancestors`, so other sites can embed it in a frame. It also lacks the other security headers the Docker image and the LXC install send. Self-host it to get them all.
 
 ### Docker
 
