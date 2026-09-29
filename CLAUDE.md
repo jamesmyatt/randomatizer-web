@@ -9,7 +9,7 @@ This is a companion to the Android app, not a one-off port. Keep the two in step
 - Features, behavior, limits, layout rules, colors, palette and UI strings match the Android app. Copy wording from its `app/src/main/res/values/strings.xml`.
 - The only allowed differences are the platform ones listed under "Differences from the Android app" in `README.md`. Add any new one there, with the reason.
 - When porting an Android change, read the Android code and tests (clone the repo for reference), port the tests to Vitest, and set `MAJOR.MINOR` to the Android version (see Versioning).
-- If a change here would also make sense in the Android app, say so rather than letting the apps drift apart.
+- New functionality goes into the Android app first, then gets ported here. Don't add a feature here that the Android app doesn't have, unless it is specific to the web platform. If a request would need one, say so and suggest adding it to the Android app first.
 - Keep the module structure mirroring the Android packages: `dice/` → `lib/dice.ts` and `lib/random.ts`, `history/` → `lib/history.ts`, `color/` → `lib/color.ts`, `settings/AppSettings.kt` → `lib/settings.ts`, `ui/DieSize.kt` → `lib/dieSize.ts`, `ui/Palette.kt` → `lib/palette.ts`, `RollerViewModel` → `lib/roller.svelte.ts`.
 
 ## Hard rules
@@ -40,7 +40,7 @@ Same as the Android app (see its CLAUDE.md for the full rules): monochrome (acce
 
 - `version` in `package.json` is semver `MAJOR.MINOR.PATCH`. The app shows it in Settings.
 - `MAJOR.MINOR` always matches the Android app's `MAJOR.MINOR` for the release this code is in step with. Change it only when porting that release, and reset PATCH to 0. (Android bumps MAJOR for most code changes, and MINOR only for small additions or tweaks that don't change existing behavior. See its CLAUDE.md.)
-- PATCH is independent of the Android app's PATCH. Bump it for any web-only change, including web-only behavior changes (fixes, platform differences, build, docs).
+- PATCH is independent of the Android app's PATCH. Bump it for any web-only change: fixes, build, docs, and behavior specific to the web platform. Shared functionality comes from porting an Android release, not a PATCH.
 - Bump the version at most once per branch/PR, relative to the base branch. Update the version line in `README.md` when `MAJOR.MINOR` changes.
 - Pushing tag `v<MAJOR>.<MINOR>.<PATCH>` publishes the image; the tag must match `package.json`. Don't push release tags unless asked.
 
