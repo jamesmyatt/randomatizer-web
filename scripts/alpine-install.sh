@@ -5,11 +5,11 @@
 #
 # Run it again to update to the latest release. Environment variables:
 #   VERSION  release to install, e.g. 1.0.0 (default: latest)
-#   PORT     port nginx listens on (default: 80)
+#   PORT     port nginx listens on (default: 8080, as in the Docker image)
 set -eu
 
 REPO="jamesmyatt/randomatizer-web"
-PORT="${PORT:-80}"
+PORT="${PORT:-8080}"
 WEB_ROOT="/usr/share/nginx/html"
 VERSION_FILE="/opt/randomatizer-web_version.txt"
 
@@ -52,7 +52,7 @@ rm -rf "${WEB_ROOT:?}"/*
 cp -R "$TMP/pkg/html/." "$WEB_ROOT/"
 cp "$TMP/pkg/nginx/security-headers.conf" /etc/nginx/snippets/security-headers.conf
 sed "s/listen 8080;/listen ${PORT};/" "$TMP/pkg/nginx/default.conf" >"$NGINX_CONF"
-# Alpine's default server also listens on port 80.
+# Alpine's default site only returns 404 (on port 80).
 rm -f /etc/nginx/http.d/default.conf
 nginx -t 2>/dev/null || die "nginx configuration test failed (run nginx -t)"
 

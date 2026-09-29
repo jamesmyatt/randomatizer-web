@@ -62,7 +62,7 @@ To build the image yourself: `docker build -t randomatizer-web .`
 wget -qO- https://raw.githubusercontent.com/jamesmyatt/randomatizer-web/main/scripts/alpine-install.sh | sh
 ```
 
-Then open `http://<container-ip>`. For HTTPS, use Tailscale Serve (below) or your reverse proxy. Run the same command again to update. Set `PORT` (default `80`) to use another port, or `VERSION` (for example `1.0.0`) to install a specific release, e.g. `... | PORT=8080 sh`.
+Then open `http://<container-ip>:8080`. For HTTPS, use Tailscale Serve (below) or your reverse proxy. Run the same command again to update. Set `PORT` (default `8080`, as in the Docker image) to use another port, or `VERSION` (for example `1.0.0`) to install a specific release, e.g. `... | PORT=80 sh`.
 
 #### HTTPS with Tailscale Serve
 
@@ -83,7 +83,7 @@ Then open `http://<container-ip>`. For HTTPS, use Tailscale Serve (below) or you
    rc-update add tailscale default
    rc-service tailscale start
    tailscale up
-   tailscale serve --bg 80
+   tailscale serve --bg 8080
    ```
 
 Only devices on your tailnet can open the address. If you set `PORT`, use that port in `tailscale serve`.
