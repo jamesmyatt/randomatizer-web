@@ -32,7 +32,7 @@ The `MAJOR.MINOR` version matches the Android app release it is in step with. `P
 - **Open**: Apache-2.0.
 - **Fair**: Web Crypto `getRandomValues` with rejection sampling, so no modulo bias.
 
-## Self-hosting
+## Install
 
 ### Docker
 
