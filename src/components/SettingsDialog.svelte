@@ -163,7 +163,7 @@
       {/if}
     {/if}
 
-    <p class="about">Randomatizer {__APP_VERSION__} · Apache-2.0</p>
+    <p class="about">Randomatizer Web {__APP_VERSION__} · Apache-2.0</p>
   </div>
 </dialog>
 

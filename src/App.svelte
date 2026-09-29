@@ -90,7 +90,7 @@
 
 <div class="app" class:history-expanded={settings.historyExpanded && history.length > 0}>
   <header class="top-bar">
-    <h1>Randomatizer</h1>
+    <h1>Randomatizer Web</h1>
     <button
       type="button"
       class="icon"

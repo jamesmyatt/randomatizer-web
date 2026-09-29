@@ -23,6 +23,7 @@ The `MAJOR.MINOR` version matches the Android app release it is in step with. `P
 - **Settings storage**: saved in the browser's `localStorage` instead of on the device.
 - **Install and offline**: a PWA instead of an APK. Offline use and installing need HTTPS or `localhost`.
 - **Hosting**: self-hosted as a static site (Docker image provided).
+- **Name**: the app is called Randomatizer Web, to tell it apart from the Android app when both are installed. Its home-screen short name stays Randomatizer.
 - **Settings sheet**: a centered dialog on wide screens, with a Close button, since browsers have no system back gesture.
 
 ## Principles

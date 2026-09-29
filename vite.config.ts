@@ -26,7 +26,7 @@ export default defineConfig({
       // Loads /registerSW.js as an external script, which the Content-Security-Policy allows.
       injectRegister: 'script',
       manifest: {
-        name: 'Randomatizer',
+        name: 'Randomatizer Web',
         short_name: 'Randomatizer',
         description: 'Minimalist self-hosted private open-source dice roller',
         theme_color: '#fbfbfb',
