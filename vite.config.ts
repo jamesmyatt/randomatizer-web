@@ -23,8 +23,8 @@ export default defineConfig({
     svelte(),
     VitePWA({
       registerType: 'autoUpdate',
-      // Loads /registerSW.js as an external script, which the Content-Security-Policy allows.
-      injectRegister: 'script',
+      // Registered in src/main.ts, which reloads the page when an update has been downloaded.
+      injectRegister: false,
       manifest: {
         name: 'Randomatizer Web',
         short_name: 'Randomatizer',
@@ -48,6 +48,10 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        // Activate updates straight away (src/main.ts then reloads the page), and control the page
+        // from the first visit so it works offline without a reload.
+        skipWaiting: true,
+        clientsClaim: true,
       },
     }),
   ],
