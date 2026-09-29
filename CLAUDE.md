@@ -42,7 +42,8 @@ Same as the Android app (see its CLAUDE.md for the full rules): monochrome (acce
 
 - `version` in `package.json` is semver `MAJOR.MINOR.PATCH`. The app shows it in Settings.
 - `MAJOR.MINOR` always matches the Android app's `MAJOR.MINOR` for the release this code is in step with. Change it only when porting that release, and reset PATCH to 0. (Android bumps MAJOR for most code changes, and MINOR only for small additions or tweaks that don't change existing behavior. See its CLAUDE.md.)
-- PATCH is independent of the Android app's PATCH. Bump it for any web-only change: fixes, build, docs, and behavior specific to the web platform. Shared functionality comes from porting an Android release, not a PATCH.
+- Only changes to the app itself bump the version: `src/`, `public/`, `index.html`, and build settings that change the built app (e.g. the PWA config in `vite.config.ts`). Docs, tests, CI and release workflows, Docker, nginx and `scripts/` changes don't.
+- PATCH is independent of the Android app's PATCH. Bump it for web-only app changes: fixes and behavior specific to the web platform. Shared functionality comes from porting an Android release, not a PATCH.
 - Bump the version at most once per branch/PR, relative to the base branch. Update the version line in `README.md` when `MAJOR.MINOR` changes.
 - Every version bump adds `changelogs/<version>.md`, the release notes. CI fails if the file for `package.json`'s version is missing. Don't add a separate `CHANGELOG.md`.
 - Pushing tag `v<MAJOR>.<MINOR>.<PATCH>` publishes the image and a GitHub Release with the static build; the tag must match `package.json`. Release steps are in `RELEASING.md`. Don't push release tags unless asked.

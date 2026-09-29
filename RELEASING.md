@@ -16,6 +16,6 @@ After the first image is published: your GitHub profile → **Packages** → **r
 1. Make sure `package.json` has the right version and `changelogs/<version>.md` exists. The changelog becomes the release notes. See `CLAUDE.md` for how to choose the version.
 2. Create the tag `v<MAJOR>.<MINOR>.<PATCH>` on `main`, either way:
    - With git: `git tag v1.0.0 && git push origin v1.0.0`.
-   - On GitHub: Releases → **Draft a new release** → type `v1.0.0` under **Choose a tag** → **Create new tag on publish**, target `main` → **Publish release**. Leave the notes empty; the workflow replaces them with the changelog. A saved draft doesn't create the tag, so nothing runs until you publish.
+   - On GitHub: Releases → **Draft a new release** → type `v1.0.0` under **Choose a tag** → **Create new tag on publish**, target `main` → **Publish release**. Leave the title and notes empty; the workflow sets the title to the tag and the notes to the changelog. A saved draft doesn't create the tag, so nothing runs until you publish.
 
 The workflow fails if the tag doesn't match the version, the changelog is missing, or the build fails.
