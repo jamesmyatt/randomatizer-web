@@ -22,7 +22,7 @@ The `MAJOR.MINOR` version matches the Android app release it is in step with. `P
 - **Colors**: browsers don't expose Android's dynamic (Material You) colors, so the app uses a fixed neutral light and dark palette.
 - **Settings storage**: saved in the browser's `localStorage` instead of on the device.
 - **Install and offline**: a PWA instead of an APK. Offline use and installing need HTTPS or `localhost`.
-- **Hosting**: self-hosted as a static site (Docker image provided).
+- **Hosting**: self-hosted as a static site, with a Docker image or an Alpine LXC install script.
 - **Name**: the app is called Randomatizer Web, to tell it apart from the Android app when both are installed. Its home-screen short name stays Randomatizer.
 - **Settings sheet**: a centered dialog on wide screens, with a Close button, since browsers have no system back gesture.
 
