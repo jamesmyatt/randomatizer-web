@@ -27,6 +27,7 @@ This is a companion to the Android app, not a one-off port. Keep the two in step
 - `src/components/`: Svelte components. `src/App.svelte`: layout, theme, roll animation.
 - `public/`: icons. `public/icon.svg` copies the Android app icon; regenerate the PNGs with `npm run generate-pwa-assets`.
 - `nginx/`, `Dockerfile`, `compose.yaml`: container.
+- `scripts/alpine-install.sh`: installs or updates a release in an Alpine LXC. It downloads the tarball that `.github/workflows/docker.yml` attaches to each GitHub Release (`html/` and `nginx/`). Keep the two in step. POSIX `sh`, no bash or curl.
 
 ## UI rules
 
@@ -42,7 +43,7 @@ Same as the Android app (see its CLAUDE.md for the full rules): monochrome (acce
 - `MAJOR.MINOR` always matches the Android app's `MAJOR.MINOR` for the release this code is in step with. Change it only when porting that release, and reset PATCH to 0. (Android bumps MAJOR for most code changes, and MINOR only for small additions or tweaks that don't change existing behavior. See its CLAUDE.md.)
 - PATCH is independent of the Android app's PATCH. Bump it for any web-only change: fixes, build, docs, and behavior specific to the web platform. Shared functionality comes from porting an Android release, not a PATCH.
 - Bump the version at most once per branch/PR, relative to the base branch. Update the version line in `README.md` when `MAJOR.MINOR` changes.
-- Pushing tag `v<MAJOR>.<MINOR>.<PATCH>` publishes the image; the tag must match `package.json`. Don't push release tags unless asked.
+- Pushing tag `v<MAJOR>.<MINOR>.<PATCH>` publishes the image and a GitHub Release with the static build; the tag must match `package.json`. Don't push release tags unless asked.
 
 ## Conventions
 

@@ -33,6 +33,8 @@ The `MAJOR.MINOR` version matches the Android app release it is in step with. `P
 
 ## Self-hosting
 
+### Docker
+
 The image serves the static app with unprivileged nginx on port 8080.
 
 ```sh
@@ -51,7 +53,19 @@ Image tags: `latest`, `<major>`, `<major>.<minor>` and `<major>.<minor>.<patch>`
 
 To build the image yourself: `docker build -t randomatizer-web .`
 
-Any static file server works too: serve the `dist/` folder from `npm run build`.
+### Alpine LXC (without Docker)
+
+[scripts/alpine-install.sh](scripts/alpine-install.sh) installs the latest release into an Alpine Linux container, such as a Proxmox LXC (1 CPU, 256 MB RAM and 1 GB disk is plenty). It installs nginx, downloads the release's static build and checks its SHA-256, and sets nginx up with the same config and security headers as the Docker image. Run it as root inside the container:
+
+```sh
+wget -qO- https://raw.githubusercontent.com/jamesmyatt/randomatizer-web/main/scripts/alpine-install.sh | sh
+```
+
+Then open `http://<container-ip>`, behind your reverse proxy for HTTPS as above. Run the same command again to update. Set `PORT` (default `80`) to use another port, or `VERSION` (for example `1.0.0`) to install a specific release, e.g. `... | PORT=8080 sh`.
+
+### Other servers
+
+Any static file server works: serve the `html/` folder from a release's `randomatizer-web-<version>.tar.gz`, or the `dist/` folder from `npm run build`. The tarball's `nginx/` folder has the nginx config.
 
 ## Development
 
@@ -70,7 +84,7 @@ Stack: [Svelte 5](https://svelte.dev/), TypeScript, [Vite](https://vite.dev/), [
 
 ## Releases
 
-Versions are `MAJOR.MINOR.PATCH`. Pushing a tag `v<MAJOR>.<MINOR>.<PATCH>` (matching `version` in `package.json`) publishes the image to GHCR. Renovate keeps dependencies and the SHA-pinned GitHub Actions up to date.
+Versions are `MAJOR.MINOR.PATCH`. Pushing a tag `v<MAJOR>.<MINOR>.<PATCH>` (matching `version` in `package.json`) publishes the image to GHCR and attaches the static build (`randomatizer-web-<version>.tar.gz` and its `.sha256`) to a GitHub Release. Renovate keeps dependencies and the SHA-pinned GitHub Actions up to date.
 
 ## License
 

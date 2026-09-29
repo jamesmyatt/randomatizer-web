@@ -1,6 +1,7 @@
-name: Publish image
+name: Publish
 
-# main publishes :edge; tag v<MAJOR>.<MINOR>.<PATCH> publishes :<MAJOR>.<MINOR>.<PATCH>, :<MAJOR>.<MINOR>, :<MAJOR> and :latest.
+# main publishes image :edge. Tag v<MAJOR>.<MINOR>.<PATCH> publishes images :<MAJOR>.<MINOR>.<PATCH>, :<MAJOR>.<MINOR>,
+# :<MAJOR> and :latest, and attaches the static build to a GitHub Release (for scripts/alpine-install.sh).
 on:
   push:
     branches: [main]
@@ -51,3 +52,36 @@ jobs:
           provenance: mode=max
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Check tag matches package.json
+        run: test "${GITHUB_REF_NAME}" = "v$(npm pkg get version | tr -d '"')"
+      - run: npm ci
+      - run: npm run build
+      - name: Package
+        run: |
+          asset="randomatizer-web-${GITHUB_REF_NAME#v}.tar.gz"
+          mkdir -p pkg/html pkg/nginx
+          cp -R dist/. pkg/html/
+          cp nginx/default.conf nginx/security-headers.conf pkg/nginx/
+          tar -czf "$asset" -C pkg .
+          sha256sum "$asset" > "$asset.sha256"
+          echo "ASSET=$asset" >> "$GITHUB_ENV"
+      # Creates the release, or adds the files to one already published from GitHub's release form.
+      - name: Upload to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 ||
+            gh release create "$GITHUB_REF_NAME" --verify-tag --title "$GITHUB_REF_NAME" --generate-notes
+          gh release upload "$GITHUB_REF_NAME" "$ASSET" "$ASSET.sha256" --clobber
