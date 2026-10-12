@@ -16,6 +16,13 @@
       "description": "Group GitHub Actions updates",
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions"
+    },
+    {
+      "description": "Automerge Docker base image digest updates daily, once CI passes, to pick up security fixes",
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["digest"],
+      "schedule": ["before 6am"],
+      "automerge": true
     }
   ]
 }
