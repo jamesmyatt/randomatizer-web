@@ -46,7 +46,7 @@ CI runs lint, type check, unit tests and the build on each pull request and push
 
 ## Dependencies
 
-Renovate opens weekly PRs for npm packages, Docker base images and GitHub Actions. Actions and base images are pinned to digests.
+Renovate opens weekly PRs for npm packages, Docker base images and GitHub Actions. Actions and base images are pinned to digests. Base image digest updates run daily and merge automatically once CI passes, so upstream security fixes arrive within a day.
 
 ## Icons
 
