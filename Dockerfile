@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Base images are pinned by digest; Renovate updates them.
 
-FROM --platform=$BUILDPLATFORM node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 AS build
+FROM --platform=$BUILDPLATFORM node:24-alpine@sha256:44fce696f38ba8c987c4db89954051000bbd05ffd8d8659ba15ed4a8602e937f AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
